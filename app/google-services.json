@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "947452851523",
+    "project_id": "honey-recipe",
+    "storage_bucket": "honey-recipe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947452851523:android:ce9ea2539bbcf4e6e8abf6",
+        "android_client_info": {
+          "package_name": "com.MBP.honey_recipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "947452851523-s1rhe3cbk645g3ed7mo7ctkdbr1o0ra7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.MBP.honey_recipe",
+            "certificate_hash": "8d588c73805c6627e7f8665121d26cf6bcbc5102"
+          }
+        },
+        {
+          "client_id": "947452851523-sn7vha2j6kfj7uchoov9p0s5lqhihb7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL68mXXwvOYNIOqpr6ulZnLJvcCKZvnjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "947452851523-sn7vha2j6kfj7uchoov9p0s5lqhihb7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
