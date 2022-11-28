@@ -4,11 +4,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.MBP.honey_recipe.best.best_desert;
-import com.MBP.honey_recipe.best.best_etc;
-import com.MBP.honey_recipe.best.best_juice;
-import com.MBP.honey_recipe.best.best_noodle;
-import com.MBP.honey_recipe.best.best_rice;
+import com.MBP.honey_recipe.Categories.category_desert;
+import com.MBP.honey_recipe.Categories.category_etc;
+import com.MBP.honey_recipe.Categories.category_juice;
+import com.MBP.honey_recipe.Categories.category_noodle;
+import com.MBP.honey_recipe.Categories.category_rice;
 
 import java.util.ArrayList;
 
@@ -35,19 +35,19 @@ public class bestViewPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                best_noodle noodle= new best_noodle();
+                category_noodle noodle= new category_noodle();
                 return noodle;
             case 1:
-                best_rice rice= new best_rice();
+                category_rice rice= new category_rice();
                 return rice;
             case 2:
-                best_desert desert= new best_desert();
+                category_desert desert= new category_desert();
                 return desert;
             case 3:
-                best_juice juice= new best_juice();
+                category_juice juice= new category_juice();
                 return juice;
             case 4:
-                best_etc etc= new best_etc();
+                category_etc etc= new category_etc();
                 return etc;
 
             default:

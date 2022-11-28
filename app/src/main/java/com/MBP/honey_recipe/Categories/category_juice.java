@@ -1,4 +1,4 @@
-package com.MBP.honey_recipe.best;
+package com.MBP.honey_recipe.Categories;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.MBP.honey_recipe.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link best_juice#newInstance} factory method to
+ * Use the {@link category_juice#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class best_juice extends Fragment {
+public class category_juice extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class best_juice extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public best_juice() {
+    public category_juice() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class best_juice extends Fragment {
      * @return A new instance of fragment best_juice.
      */
     // TODO: Rename and change types and number of parameters
-    public static best_juice newInstance(String param1, String param2) {
-        best_juice fragment = new best_juice();
+    public static category_juice newInstance(String param1, String param2) {
+        category_juice fragment = new category_juice();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

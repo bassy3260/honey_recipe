@@ -1,4 +1,4 @@
-package com.MBP.honey_recipe.best;
+package com.MBP.honey_recipe.Categories;
 
 import android.os.Bundle;
 
@@ -11,12 +11,7 @@ import android.view.ViewGroup;
 
 import com.MBP.honey_recipe.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link best_desert#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class best_desert extends Fragment {
+public class category_desert extends Fragment {
 
     ViewPager viewPager;
 
