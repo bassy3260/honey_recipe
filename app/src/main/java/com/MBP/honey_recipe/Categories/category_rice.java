@@ -1,5 +1,6 @@
 package com.MBP.honey_recipe.Categories;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.MBP.honey_recipe.Model.Recipe;
 import com.MBP.honey_recipe.Model.Recipes;
 import com.MBP.honey_recipe.R;
 import com.MBP.honey_recipe.adapter.gridViewAdapter;
@@ -38,10 +38,10 @@ public class category_rice extends Fragment {
         View view= inflater.inflate(R.layout.fragment_best_rice, container, false);
         gridView=(GridView) view.findViewById(R.id.bestricegrid);
         recipes= new ArrayList<Recipes>();
-        adapter=new gridViewAdapter(getActivity(),recipes);
+
         database = FirebaseFirestore.getInstance();
-        postUpdate();
-        gridView.setAdapter(adapter);
+        Log.e("출력",String.valueOf(recipes));
+
         return view;
     }
 
@@ -70,12 +70,16 @@ public class category_rice extends Fragment {
                                         document.getData().get("ingredient").toString(),
                                         document.getData().get("resultImage").toString(),
                                         (ArrayList<String>) document.getData().get("step"),
-                                        (ArrayList<String>) document.getData().get("stepImage"),
+                                        (ArrayList<Uri>) document.getData().get("stepImage"),
                                         new Date(document.getDate("created").getTime()),
-                                        document.getData().get("rating").toString(),
-                                        document.getData().get("commentCount").toString()));
+                                        Float.parseFloat(document.getData().get("rating").toString()),
+                                        (Long)document.getData().get("commentCount"),
+                                        (Long)document.getData().get("cost")));
                             }
-                            adapter.notifyDataSetChanged(); //데이터 변경(삭제, 수정 시)
+
+                            adapter=new gridViewAdapter(getActivity(),recipes);
+                            gridView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         } else {
                             Log.d("로그", "Error getting documents: ", task.getException());
                         }

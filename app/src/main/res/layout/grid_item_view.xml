@@ -11,6 +11,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/layout_border"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,13 +50,12 @@
                     android:layout_height="20dp"
                     android:numStars="5"
                     android:rating="0"
-                    android:stepSize="0.5" />
+                    android:stepSize="0.05" />
 
                 <TextView
-                    android:id="@+id/gridCommentCount"
-                    android:layout_width="match_parent"
+                    android:id="@+id/gridRatingScore"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="댓글 수" />
 
             </LinearLayout>

@@ -20,7 +20,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".recipeStepView"
+            android:name=".myCommentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -47,13 +47,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".myRecipeActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".writeActivity"
             android:exported="false">

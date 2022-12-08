@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 
 public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -120,8 +122,9 @@ public class SignupActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         String uid = user.getUid();
+                        ArrayList<String> favorite=new ArrayList<>();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        UserInfo userInfo = new UserInfo(name, uid, "null");
+                        UserInfo userInfo = new UserInfo(name, uid, null,favorite);
                         db.collection("user").document(user.getUid()).set(userInfo);
 
                         loaderLayout.setVisibility(View.GONE);

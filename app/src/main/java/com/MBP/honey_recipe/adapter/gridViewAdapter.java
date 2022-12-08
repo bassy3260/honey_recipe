@@ -12,15 +12,28 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.MBP.honey_recipe.Model.Recipe;
+import androidx.annotation.NonNull;
+
+import com.MBP.honey_recipe.Model.Comment;
 import com.MBP.honey_recipe.Model.Recipes;
 import com.MBP.honey_recipe.R;
 import com.MBP.honey_recipe.postActivity;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.IntSummaryStatistics;
 
 public class gridViewAdapter extends BaseAdapter {
     Context context;
@@ -30,7 +43,7 @@ public class gridViewAdapter extends BaseAdapter {
     public gridViewAdapter(Context context, ArrayList<Recipes> items ) {
         this.items=items;
     }
-
+    ArrayList<Float> rating;
     @Override
     public int getCount(){
         return items.size();
@@ -53,6 +66,7 @@ public class gridViewAdapter extends BaseAdapter {
 
         context = viewGroup.getContext();
         Recipes recipe=items.get(position);
+        FirebaseFirestore database;
 
         if(view == null){
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,14 +74,17 @@ public class gridViewAdapter extends BaseAdapter {
 
             TextView recipeName= (TextView) view.findViewById(R.id.gridRecipeName);
             TextView recipeCost= (TextView) view.findViewById(R.id.gridRecipeCost);
-            TextView commentCount= (TextView) view.findViewById(R.id.gridCommentCount);
+            TextView commentCount= (TextView) view.findViewById(R.id.gridRatingScore);
             RatingBar ratingBar= (RatingBar) view.findViewById(R.id.gridRatingBar);
             ImageView imageView =(ImageView) view.findViewById(R.id.gridImg);
-            ratingBar.setRating(Integer.parseInt(String.valueOf(recipe.getRating())));
+            ratingBar.setRating(recipe.getRating());
+            commentCount.setText("("+recipe.getCommentCount().toString()+")");
             Glide.with(view.getContext()).load(Uri.parse(recipe.getResultImage())).centerCrop().into(imageView);
-            commentCount.setText(recipe.getCommentCount());
+
             recipeName.setText(recipe.getTitle());
             recipeCost.setText(recipe.getCategory());
+
+
 
 
         }else{
@@ -80,9 +97,9 @@ public class gridViewAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Toast.makeText(context,recipe.getTitle()+"입니다",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), postActivity.class);
-
                 intent.putExtra("id",items.get(position).getId());
                 view.getContext().startActivity(intent);
+
 
             }
         });

@@ -14,12 +14,13 @@ public class Recipes {
     String ingredient;
     String resultImage;
     ArrayList<String> step;
-    ArrayList<String> stepImage;
+    ArrayList<Uri> stepImage;
     Date created;
-    String rating;
-    String commentCount;
+    Float rating;
+    Long commentCount;
+    Long cost;
 
-    public Recipes(String id, String userId, String title, String category, String content, String ingredient, String resultImage, ArrayList<String> step, ArrayList<String> stepImage, Date created, String rating, String commentCount) {
+    public Recipes(String id, String userId, String title, String category, String content, String ingredient, String resultImage, ArrayList<String> step, ArrayList<Uri> stepImage, Date created, Float rating, Long commentCount, Long cost) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -32,10 +33,7 @@ public class Recipes {
         this.created = created;
         this.rating = rating;
         this.commentCount = commentCount;
-    }
-
-    public Recipes() {
-
+        this.cost = cost;
     }
 
     public String getId() {
@@ -102,11 +100,11 @@ public class Recipes {
         this.step = step;
     }
 
-    public ArrayList<String> getStepImage() {
+    public ArrayList<Uri> getStepImage() {
         return stepImage;
     }
 
-    public void setStepImage(ArrayList<String> stepImage) {
+    public void setStepImage(ArrayList<Uri> stepImage) {
         this.stepImage = stepImage;
     }
 
@@ -118,19 +116,27 @@ public class Recipes {
         this.created = created;
     }
 
-    public String getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
-    public String getCommentCount() {
+    public Long getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(String commentCount) {
+    public void setCommentCount(Long commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

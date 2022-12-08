@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ScrollView
@@ -32,6 +32,13 @@
                     app:srcCompat="@drawable/default_profile" />
             </androidx.cardview.widget.CardView>
 
+            <Button
+                android:id="@+id/mypageLoginBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="로그인" />
+
             <TextView
                 android:id="@+id/mypageNameText"
                 android:layout_width="match_parent"
@@ -39,12 +46,14 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text="이름"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <View
 
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#16000000" />
 
 
@@ -55,7 +64,7 @@
                 android:background=" #00ff0000"
                 android:backgroundTint="#FFFFFF"
                 android:shadowColor="#FFFFFF"
-                android:text="회원 정보 수정"
+                android:text="닉네임 변경"
                 android:textAlignment="viewStart"
                 android:textColor="#000000" />
 
@@ -105,4 +114,11 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <include
+        layout="@layout/view_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:visibility="gone" />
+
+</RelativeLayout>

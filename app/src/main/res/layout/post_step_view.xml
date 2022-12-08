@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/layout_border"
     android:layout_weight="1"
     android:orientation="horizontal">
 
@@ -10,6 +11,8 @@
         android:id="@+id/postStepNum"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+
         android:layout_weight="1"
         android:gravity="center"
         android:text="번호"
@@ -20,7 +23,10 @@
         android:id="@+id/postStepText"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:layout_weight="100"
+        android:gravity="center|left"
         android:hint="과정"
         android:padding="10dp"
         android:textSize="16sp" />
@@ -30,7 +36,9 @@
         android:id="@+id/postStepImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_margin="10dp"
         android:layout_weight="1"
+        android:background="@drawable/layout_border"
         app:srcCompat="@drawable/write_circle" />
 
 </LinearLayout>
