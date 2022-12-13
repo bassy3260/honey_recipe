@@ -2,11 +2,13 @@ package com.MBP.honey_recipe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -36,7 +38,10 @@ public class myRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_recipe);
-
+        Toolbar toolbar = findViewById(R.id.default_toolbar);
+        setSupportActionBar(toolbar);//액션바를 툴바로 바꿔줌
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("내가 작성한 레시피");
         gridView=(GridView) findViewById(R.id.myRecipeGridView);
         database = FirebaseFirestore.getInstance();
         recipes= new ArrayList<Recipes>();
@@ -46,7 +51,17 @@ public class myRecipeActivity extends AppCompatActivity {
         gridView.setAdapter(adapter);
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
+        }
+        return true;
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -73,7 +88,7 @@ public class myRecipeActivity extends AppCompatActivity {
                                         (ArrayList<String>) document.getData().get("step"),
                                         (ArrayList<Uri>) document.getData().get("stepImage"),
                                         new Date(document.getDate("created").getTime()),
-                                        (Float) document.getData().get("rating"),
+                                        Float.parseFloat( document.getData().get("rating").toString()),
                                         (Long)document.getData().get("commentCount"),
                                         (Long)document.getData().get("cost")));
                             }

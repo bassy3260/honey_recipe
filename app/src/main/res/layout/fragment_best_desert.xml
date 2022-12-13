@@ -19,35 +19,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="10dp"
 
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonA"
+                android:id="@+id/desertBest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#D8D8D8"
+                android:background="#ACACAC"
                 android:text="best">
 
             </androidx.appcompat.widget.AppCompatButton>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonB"
+                android:id="@+id/desertNew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#D8D8D8"
                 android:text="new"
-                app:layout_constraintLeft_toRightOf="@+id/buttonA" />
+                app:layout_constraintLeft_toRightOf="@+id/desertBest" />
         </LinearLayout>
 
         <GridView
             android:id="@+id/bestdesertgrid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2" />
+            android:layout_margin="10dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:verticalSpacing="10dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

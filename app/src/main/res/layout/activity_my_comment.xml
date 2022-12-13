@@ -5,6 +5,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <include
+        layout="@layout/defalut_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mycommentRecyclerView"
         android:layout_width="match_parent"

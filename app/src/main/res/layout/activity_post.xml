@@ -8,6 +8,11 @@
     android:orientation="vertical"
     tools:context=".writeActivity">
 
+    <include
+        layout="@layout/post_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,7 +25,7 @@
             <ImageView
                 android:id="@+id/cookedImage"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:scaleType="fitCenter"
                 tools:srcCompat="@android:drawable/ic_menu_gallery" />
 
@@ -28,7 +33,10 @@
                 android:id="@+id/categoryTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="카테고리"
                 android:textSize="20sp" />
 
@@ -36,8 +44,9 @@
                 android:id="@+id/recipeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
                 android:text="제목"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -51,6 +60,8 @@
                     android:id="@+id/recipeRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:isIndicator="true"
                     android:numStars="5"
                     android:stepSize="0.05" />
 
@@ -78,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="#86F9A825"
                 android:text="즐겨찾기 추가" />
 
             <LinearLayout
@@ -124,7 +136,7 @@
                 android:id="@+id/categoryTextView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#c7fdb5"
+                android:background="#F9A825"
                 android:padding="10dp"
                 android:text="레시피 재료"
                 android:textSize="20sp" />
@@ -141,7 +153,7 @@
                 android:id="@+id/categoryTextView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#c7fdb5"
+                android:background="#F9A825"
                 android:padding="10dp"
                 android:text="예상 비용"
                 android:textSize="20sp" />
@@ -158,7 +170,7 @@
                 android:id="@+id/categoryTextView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#c7fdb5"
+                android:background="#F9A825"
                 android:padding="10dp"
                 android:text="레시피 과정"
                 android:textSize="20sp" />
@@ -180,7 +192,7 @@
                 android:id="@+id/categoryTextView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#c7fdb5"
+                android:background="#AB69AA3B"
                 android:padding="10dp"
                 android:text="댓글"
                 android:textSize="20sp" />
@@ -229,6 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"
+                    android:background="#7A7DCA47"
                     android:text="댓글 입력" />
 
                 <androidx.recyclerview.widget.RecyclerView

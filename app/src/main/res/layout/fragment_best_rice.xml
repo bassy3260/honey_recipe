@@ -24,23 +24,23 @@
                     android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/buttonA"
+                            android:id="@+id/riceBest"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="#D8D8D8"
+                            android:background="#ACACAC"
                             android:text="best">
 
                         </androidx.appcompat.widget.AppCompatButton>
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/buttonB"
+                            android:id="@+id/riceNew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="#D8D8D8"
                             android:text="new"
-                            app:layout_constraintLeft_toRightOf="@+id/buttonA" />
+                            app:layout_constraintLeft_toRightOf="@+id/riceBest" />
                 </LinearLayout>
 
                 <GridView

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.MBP.honey_recipe.Listener.OnFavListener;
 import com.MBP.honey_recipe.Model.Recipes;
 import com.MBP.honey_recipe.R;
 import com.MBP.honey_recipe.postActivity;
@@ -41,7 +42,7 @@ public class favoriteListViewAdapter extends RecyclerView.Adapter<favoriteListVi
     // 보여줄 Item 목록을 저장할 List
     private ArrayList<String> items;
     private Intent intent;
-
+    private OnFavListener onFavListener;
     private FirebaseUser user;
     private FirebaseFirestore database;
 
@@ -56,7 +57,9 @@ public class favoriteListViewAdapter extends RecyclerView.Adapter<favoriteListVi
             super(view);
         }
     }
-
+    public void setOnFavListener(OnFavListener onFavListener) {
+        this.onFavListener = onFavListener;
+    }
     public favoriteListViewAdapter(FragmentActivity activity, ArrayList<String> items) {
         this.items = items;
     }
@@ -137,22 +140,8 @@ public class favoriteListViewAdapter extends RecyclerView.Adapter<favoriteListVi
             @Override
             public void onClick(View view) {
                 items.remove(postId);
-                DocumentReference userRef = database.collection("user").document(user.getUid());
-                userRef.update("favorite", items)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                deleteFavBtn.setVisibility(View.GONE);
-                                favBtn.setVisibility(View.VISIBLE);
-                                Toast.makeText(view.getContext(), "즐겨찾기 삭제 완료", Toast.LENGTH_SHORT).show();
-                           }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(view.getContext(), "즐겨찾기 삭제 실패", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                onFavListener.onUpdate(items);
+                notifyDataSetChanged();
             }
         });
     }

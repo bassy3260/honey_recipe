@@ -1,9 +1,11 @@
 package com.MBP.honey_recipe;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.MBP.honey_recipe.Model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +41,10 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
-        getSupportActionBar().setTitle("회원 가입");
+        Toolbar toolbar = findViewById(R.id.default_toolbar);
+        setSupportActionBar(toolbar);//액션바를 툴바로 바꿔줌
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("회원가입");
 
         //기입 항목
         nickname = findViewById(R.id.signUpNickNameEditText);
@@ -100,7 +106,17 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
+        }
+        return true;
+    }
     public void signup() {
         //가입 정보 가져오기
         final RelativeLayout loaderLayout = findViewById(R.id.loaderLayout);
@@ -124,7 +140,7 @@ public class SignupActivity extends AppCompatActivity {
                         String uid = user.getUid();
                         ArrayList<String> favorite=new ArrayList<>();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        UserInfo userInfo = new UserInfo(name, uid, null,favorite);
+                        UserInfo userInfo = new UserInfo(name, uid, Uri.parse("null"),favorite);
                         db.collection("user").document(user.getUid()).set(userInfo);
 
                         loaderLayout.setVisibility(View.GONE);

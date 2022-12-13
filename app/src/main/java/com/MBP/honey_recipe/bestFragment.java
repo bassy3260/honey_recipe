@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -43,7 +44,13 @@ public class bestFragment extends Fragment {
         inflater.inflate(R.menu.recipe_home_menu,menu);
 
     }
-
+    public void onResume() {
+        super.onResume();
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            ((MainActivity) activity).setActionBarTitle("레시피");
+        }
+    }
     //메뉴 버튼 설정 함수
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

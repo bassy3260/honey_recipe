@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,12 +8,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0"
             android:orientation="vertical">
@@ -63,6 +62,7 @@
                 android:layout_height="73dp"
                 android:background=" #00ff0000"
                 android:backgroundTint="#FFFFFF"
+                android:padding="10dp"
                 android:shadowColor="#FFFFFF"
                 android:text="닉네임 변경"
                 android:textAlignment="viewStart"
@@ -81,6 +81,7 @@
                 android:layout_height="73dp"
                 android:background=" #00ff0000"
                 android:backgroundTint="#FFFFFF"
+                android:padding="10dp"
                 android:text="내가 작성한 레시피"
                 android:textAlignment="viewStart"
                 android:textColor="#000000" />
@@ -91,6 +92,7 @@
                 android:layout_height="73dp"
                 android:background=" #00ff0000"
                 android:backgroundTint="#FFFFFF"
+                android:padding="10dp"
                 android:text="내가 작성한 댓글"
                 android:textAlignment="viewStart"
                 android:textColor="#000000" />
@@ -108,6 +110,7 @@
                 android:layout_height="73dp"
                 android:background=" #00ff0000"
                 android:backgroundTint="#FFFFFF"
+                android:padding="10dp"
                 android:text="로그아웃"
                 android:textAlignment="viewStart"
                 android:textColor="#000000" />
@@ -121,4 +124,4 @@
         android:layout_weight="0"
         android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

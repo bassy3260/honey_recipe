@@ -1,8 +1,14 @@
 package com.MBP.honey_recipe.adapter;
 
 
-/** 게시글 리사이클러뷰 어댑터 **/
+/**
+ * 게시글 리사이클러뷰 어댑터
+ **/
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.MBP.honey_recipe.Listener.OnPostListener;
 import com.MBP.honey_recipe.Model.Comment;
 import com.MBP.honey_recipe.R;
 
@@ -35,16 +43,17 @@ import java.util.Locale;
 
 public class commentListViewAdapter extends RecyclerView.Adapter<commentListViewAdapter.commentListViewHolder> {
     // 보여줄 Item 목록을 저장할 List
-    private ArrayList<Comment> items=new ArrayList<>();
+    private ArrayList<Comment> items = new ArrayList<>();
     private FirebaseFirestore database;
     private FirebaseUser user;
+    private OnPostListener onPostListener;
     @Override
     public int getItemViewType(int position) {
         return position;
     }
 
 
-    public class commentListViewHolder extends RecyclerView.ViewHolder{
+    public class commentListViewHolder extends RecyclerView.ViewHolder {
         public commentListViewHolder(@NonNull View view) {
             super(view);
         }
@@ -53,23 +62,28 @@ public class commentListViewAdapter extends RecyclerView.Adapter<commentListView
     public commentListViewAdapter(FragmentActivity activity, ArrayList<Comment> items) {
         this.items = items;
     }
+
     @NonNull
     @Override
-    public commentListViewHolder  onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public commentListViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment_view, viewGroup, false);
-        commentListViewHolder commentListViewHolder = new commentListViewHolder (view);
-        return   commentListViewHolder;
+        commentListViewHolder commentListViewHolder = new commentListViewHolder(view);
+        return commentListViewHolder;
+    }
+
+    public void setOnPostListener(OnPostListener onPostListener) {
+        this.onPostListener = onPostListener;
     }
 
     /* 리스트 뷰 텍스트 설정 */
     @Override
     public void onBindViewHolder(@NonNull commentListViewHolder viewHolder, int position) {
         View holder = viewHolder.itemView;
-        position=viewHolder.getAdapterPosition();
+        position = viewHolder.getAdapterPosition();
         TextView comment_name = holder.findViewById(R.id.commentNameText);
         ImageView commentImageView = (ImageView) holder.findViewById(R.id.commentImageView);
         String userid = items.get(position).getUserid();
-        RatingBar ratingBar=(RatingBar) holder.findViewById(R.id.commentRatingbar);
+        RatingBar ratingBar = (RatingBar) holder.findViewById(R.id.commentRatingbar);
 
         database = FirebaseFirestore.getInstance();
         //FireStore에서 게시글 정보 받아오기
@@ -114,39 +128,37 @@ public class commentListViewAdapter extends RecyclerView.Adapter<commentListView
             date.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(items.get(position).getCreated()));
         }
         user = FirebaseAuth.getInstance().getCurrentUser();
-//        ImageButton commentDeleteButton = (ImageButton) holder.findViewById(R.id.commentDeleteButton);
-//        if (userid.equals(user.getUid())) {
-//            commentDeleteButton.setVisibility(holder.VISIBLE);
-//        }
-        String id = (String) items.get(position).getId();
-//        commentDeleteButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(holder.getContext());
-//                builder.setTitle("댓글 삭제");
-//                builder.setMessage("댓글을 삭제하시겠습니까?");
-//                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                    public void onClick(
-//                            DialogInterface dialog, int id) {
-//                        if (uid.equals(user.getUid())) {
-//                            onPostListener.onDelete(id);
-//                            notifyItemChanged(position); //x 표시가 밀리는 현상 고침.
-//                        }
-//                        else{
-//                            Toast.makeText(v.getContext(), "자신의 댓글만 삭제할 수 있습니다.", Toast.LENGTH_SHORT );
-//                        }
-//                    }
-//                });
-//                builder.setNegativeButton("취소",  new DialogInterface.OnClickListener() {
-//                    public void onClick(
-//                            DialogInterface dialog, int id) {
-//
-//                    }
-//                });
-//                builder.create().show();
-//
-//            }
-//        });
+        ImageButton commentDeleteButton = (ImageButton) holder.findViewById(R.id.commentDelete);
+        if (userid.equals(user.getUid())) {
+            commentDeleteButton.setVisibility(holder.VISIBLE);
+        }
+
+        String comment_id = (String) items.get(position).getId();
+        int finalPosition = position;
+        commentDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.getContext());
+                builder.setTitle("댓글 삭제");
+                builder.setMessage("댓글을 삭제하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.e("아이디",comment_id);
+                        onPostListener.onDelete(comment_id);
+                        notifyItemChanged(finalPosition); //x 표시가 밀리는 현상 고침.
+
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    public void onClick(
+                            DialogInterface dialog, int id) {
+
+                    }
+                });
+                builder.create().show();
+
+            }
+        });
 
     }
 

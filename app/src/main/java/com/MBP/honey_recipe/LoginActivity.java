@@ -2,6 +2,7 @@ package com.MBP.honey_recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.MBP.honey_recipe.MainActivity;
 import com.MBP.honey_recipe.R;
@@ -31,6 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Toolbar toolbar = findViewById(R.id.default_toolbar);
+        setSupportActionBar(toolbar);//액션바를 툴바로 바꿔줌
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("로그인");
         FirebaseUser user = mAuth.getCurrentUser();
         //회원가입 버튼
         sign = findViewById(R.id.gotoSigninButton);
@@ -53,7 +60,17 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
+        }
+        return true;
+    }
     //로그인 함수
     public void login() {
         String email = ((EditText) findViewById(R.id.loginEmailEditText)).getText().toString();
@@ -82,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }else{
+            loaderLayout.setVisibility(View.GONE);
             toast("이메일과 비밀번호를 정확히 입력해주세요.");
         }
     }
@@ -95,6 +113,14 @@ public class LoginActivity extends AppCompatActivity {
     public void StartMyActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
+    }
+
+    //액션바 타이틀 설정
+    public void setActionBarTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
     }
 
 }

@@ -82,7 +82,7 @@ public class gridViewAdapter extends BaseAdapter {
             Glide.with(view.getContext()).load(Uri.parse(recipe.getResultImage())).centerCrop().into(imageView);
 
             recipeName.setText(recipe.getTitle());
-            recipeCost.setText(recipe.getCategory());
+            recipeCost.setText(String.valueOf(recipe.getCost())+"원");
 
 
 

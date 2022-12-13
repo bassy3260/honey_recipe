@@ -2,6 +2,7 @@ package com.MBP.honey_recipe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -56,7 +57,10 @@ public class writeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
-
+        Toolbar toolbar = findViewById (R.id.toolbar);
+        setSupportActionBar (toolbar);
+        getSupportActionBar().setTitle("글 쓰기");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //스피너
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
         ArrayAdapter categoryAdapter = ArrayAdapter.createFromResource(this,
@@ -109,6 +113,10 @@ public class writeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
             case R.id.menu_write_complete:
 
                 for (int i = 0; i < 5; i++) {
@@ -139,10 +147,10 @@ public class writeActivity extends AppCompatActivity {
                 }
 
 
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+
         }
+
+        return true;
     }
 
     @Override

@@ -1,13 +1,20 @@
 package com.MBP.honey_recipe;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +23,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.MBP.honey_recipe.Listener.OnPostListener;
 import com.MBP.honey_recipe.Model.Comment;
 import com.MBP.honey_recipe.Model.Recipes;
 import com.MBP.honey_recipe.Model.UserInfo;
@@ -46,7 +55,7 @@ public class postActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Recipes recipes;
     private String postId;
-    private TextView recipeTitle, recipeIngredient, recipeContent,recipeCost,author,rating,commentCount;
+    private TextView recipeTitle, recipeIngredient, recipeContent,recipeCost,author,rating,commentCount,category;
     private RatingBar ratingBar, commentRatingBar;
     private Button commentButton, favoriteButton;
     private ImageView cookedImage,authorImg;
@@ -59,18 +68,24 @@ public class postActivity extends AppCompatActivity {
     private ArrayList<String> favoriteList;
     private UserInfo userInfo;
     private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post);
+        Toolbar toolbar = findViewById(R.id.post_toolbar);
+        setSupportActionBar(toolbar);//액션바를 툴바로 바꿔줌
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         favoriteList=new ArrayList<String>();
-        setContentView(R.layout.activity_post);
+
         postId = (String) getIntent().getSerializableExtra("id");
         database = FirebaseFirestore.getInstance();
         recipeSteps = new ArrayList<>();
         commentList = new ArrayList<>();
         recipeTitle = (TextView) findViewById(R.id.recipeTitle);
+        category=(TextView)findViewById(R.id.categoryTextView);
         recipeCost = (TextView) findViewById(R.id.recipeCostEditText);
         author = (TextView) findViewById(R.id.authorName);
         recipeIngredient = (TextView) findViewById(R.id.recipeIngredient);
@@ -112,6 +127,8 @@ public class postActivity extends AppCompatActivity {
                                         Float.parseFloat(document.getData().get("rating").toString()),
                                         (Long) document.getData().get("commentCount"),
                                         (Long)document.getData().get("cost"));
+
+                                userId= recipes.getUserId();
                                 //글쓴이 정보
                                 CollectionReference authorReference = database.collection("user");
                                 authorReference.whereEqualTo("uid",recipes.getUserId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -119,6 +136,7 @@ public class postActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                                 author.setText(document.getData().get("name").toString());
                                                 if(document.getData().get("profile_pic")==null){
                                                     authorImg.setImageResource(R.drawable.default_profile);
@@ -131,6 +149,9 @@ public class postActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
+
+                                getSupportActionBar().setTitle(recipes.getTitle());
+                                category.setText(recipes.getCategory());
                                 recipeTitle.setText(recipes.getTitle());
                                 recipeCost.setText(String.valueOf(recipes.getCost())+"원");
                                 recipeIngredient.setText(recipes.getIngredient());
@@ -236,14 +257,94 @@ public class postActivity extends AppCompatActivity {
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(postActivity.this));
         commentRecyclerView.setAdapter(commentAdapter);
-
+        commentAdapter.setOnPostListener(onPostListener);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.post_menu, menu);
+
+        MenuItem postdelete = menu.findItem(R.id.postDeleteMenu);
+        if (user!=null&&user.getUid().equals(userId)) {
+            postdelete.setVisible(true);
+        }
+        return true;
+    }
     @Override
     public void onResume() {
         super.onResume();
         commentUpdate();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
+            case R.id.postDeleteMenu:
+                AlertDialog.Builder builder = new AlertDialog.Builder(postActivity.this);
+                builder.setTitle("게시물 삭제");
+                builder.setMessage("게시물을 삭제하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    public void onClick(
+                            DialogInterface dialog, int id) {
+
+                        database = FirebaseFirestore.getInstance();
+                        database.collection("recipes").document(postId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        toast("게시글을 삭제하였습니다.");
+                                        finish();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    public void onClick(
+                            DialogInterface dialog, int id) {
+
+                    }
+                });
+                builder.create().show();
+        }
+        return true;
+    }
+    OnPostListener onPostListener = new OnPostListener() {
+        @Override
+        public void onDelete(String id) {
+            database.collection("comment").document(id)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            toast("댓글을 삭제하였습니다.");
+                            commentUpdate();
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
+
+    };
 
     private void commentUpdate() {
         postId = (String) getIntent().getSerializableExtra("id");

@@ -2,14 +2,20 @@ package com.MBP.honey_recipe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.MBP.honey_recipe.Model.Comment;
 import com.MBP.honey_recipe.adapter.myCommentListViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,13 +40,27 @@ public class myCommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_comment);
-
+        Toolbar toolbar = findViewById(R.id.default_toolbar);
+        setSupportActionBar(toolbar);//액션바를 툴바로 바꿔줌
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("내가 작성한 댓글");
         database=FirebaseFirestore.getInstance();
         commentList=new ArrayList<>();
 
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // User chose the "Settings" item, show the app settings UI...
+                finish();
+                break;
+        }
+        return true;
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -53,7 +73,7 @@ public class myCommentActivity extends AppCompatActivity {
                 // 카테고리에 따라 게시글 받아오기
                 .whereEqualTo("userid", user.getUid())
                 //시간순 정렬
-                .orderBy("created", Query.Direction.ASCENDING)
+                .orderBy("created", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

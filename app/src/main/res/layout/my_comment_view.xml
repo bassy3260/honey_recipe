@@ -67,6 +67,12 @@
             android:text="TextView"
             android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/commentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="삭제된 게시물 입니다." />
+
     </LinearLayout>
 
     <View

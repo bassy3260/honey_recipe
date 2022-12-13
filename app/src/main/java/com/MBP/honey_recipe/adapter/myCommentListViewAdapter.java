@@ -102,6 +102,7 @@ public class myCommentListViewAdapter extends RecyclerView.Adapter<myCommentList
         View holder = viewHolder.itemView;
         position = viewHolder.getAdapterPosition();
         TextView comment_name = holder.findViewById(R.id.mycommentNameText);
+        TextView post_title = holder.findViewById(R.id.commentTitle);
         ImageView commentImageView = (ImageView) holder.findViewById(R.id.mycommentImageView);
         String userid = items.get(position).getUserid();
         RatingBar ratingBar = (RatingBar) holder.findViewById(R.id.mycommentRatingbar);
@@ -126,6 +127,22 @@ public class myCommentListViewAdapter extends RecyclerView.Adapter<myCommentList
                                     Glide.with(holder.getContext()).load(file).centerCrop().override(500).into(commentImageView);
                                 }
 
+                            }
+                        } else {
+                        }
+                    }
+                });
+
+        database.collection("recipes")
+                // 카테고리에 따라 게시글 받아오기
+                .whereEqualTo("id", items.get(position).getPostid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                               post_title.setText(document.getData().get("title").toString());
                             }
                         } else {
                         }

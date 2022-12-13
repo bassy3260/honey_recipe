@@ -3,13 +3,16 @@ package com.MBP.honey_recipe;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +77,7 @@ public class mypageFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        userRef = database.collection("user").document(user.getUid());
+
         storage = FirebaseStorage.getInstance();
         name = (TextView) view.findViewById(R.id.mypageNameText);
         nameEdit=(Button)view.findViewById(R.id.mypageEditButton);
@@ -98,6 +101,7 @@ public class mypageFragment extends Fragment {
                             if (nameEditText.getText().toString().length() == 0) {
                                 toast("변경할 닉네임을 입력해주세요.");
                             } else {
+                                userRef = database.collection("user").document(user.getUid());
                                 userRef.update("name", nameEditText.getText().toString())
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -170,12 +174,14 @@ public class mypageFragment extends Fragment {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(
                             DialogInterface dialog, int id) {
+
                         mAuth.signOut();
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         toast("로그아웃에 성공하였습니다.");
+
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -184,6 +190,7 @@ public class mypageFragment extends Fragment {
 
                     }
                 });
+
                 builder.create().show();
             }
         });
@@ -233,7 +240,7 @@ public class mypageFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String profile_uri = uri.toString();
-
+                                    userRef = database.collection("user").document(user.getUid());
                                     userRef.update("profile_pic", profile_uri)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -268,7 +275,10 @@ public class mypageFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            ((MainActivity) activity).setActionBarTitle("내 정보");
+        }
         if (user == null) {
             toast("마이페이지를 이용하기 위해서는 로그인이 필요합니다.");
         } else {
@@ -294,7 +304,7 @@ public class mypageFragment extends Fragment {
                                 name.setVisibility(View.VISIBLE);
 
                                 name.setText(document.getData().get("name").toString());
-                                if (document.getData().get("profile_pic").toString().equals(null)) {
+                                if (document.getData().get("profile_pic").toString().equals("null")) {
                                     imageView.setImageResource(R.drawable.default_profile);
                                 } else {
                                     String url = document.getData().get("profile_pic").toString();
